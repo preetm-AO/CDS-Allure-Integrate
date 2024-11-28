@@ -23,14 +23,21 @@ jobs:
             python --version
             ls -a
             pip install -r requirements.txt
-            pip install allure-pytest
-            brew install allure
       - run:
-          name: Install Node.js and Allure command-line tool
+          name: Download Allure CLI
           command: |
-            curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            sudo npm install -g allure-commandline --save-dev
+            # Download Allure Command Line Tool from GitHub releases page
+            ALLURE_VERSION="2.18.1"  # Specify the desired version here
+            wget https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz
+
+            # Extract the downloaded tar.gz file
+            tar -zxvf allure-$ALLURE_VERSION.tgz
+
+            # Move the 'allure' executable to /usr/local/bin (optional)
+            sudo mv allure-$ALLURE_VERSION/bin/allure /usr/local/bin/allure
+
+            # Verify allure installation
+            allure --version
       - run:
           name: Run pytest tests
           when: always
