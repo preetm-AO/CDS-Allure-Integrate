@@ -24,6 +24,12 @@ jobs:
             ls -a
             pip install -r requirements.txt
       - run:
+          name: Install Node.js and Allure command-line tool
+          command: |
+            curl -sL https://deb.nodesource.com/setup_16.x | bash -
+            apt-get install -y nodejs
+            npm install -g allure-commandline --save-dev
+      - run:
           name: Run pytest tests
           when: always
           command: |
