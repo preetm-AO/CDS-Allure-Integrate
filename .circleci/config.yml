@@ -1,0 +1,93 @@
+version: 2.1
+
+### PARAMETERS
+parameters:
+  run_build:
+    default: true
+    type: boolean
+  run-execute-tests:
+    default: false
+    type: boolean
+  run-allure-report-generation:
+    default: false
+    type: boolean
+
+### JOBS
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.9 # Official CircleCI Python image
+
+    steps:
+      - run:
+          name: Install dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
+
+  execute-tests:
+    docker:
+      - image: circleci/python:3.9 # Official CircleCI Python image
+
+    steps:
+      - run:
+          name: Run pytest tests
+          when: always
+          command: |
+            . venv/bin/activate
+            pytest  # Generate Allure results in this directory
+
+  allure-report:
+    docker:
+      - image: circleci/python:3.9 # Official CircleCI Python image
+
+    steps:
+      - run:
+          name: Run Allure report generation
+          when: always
+          command: |
+            cd /usr/src/app/
+            allure generate logs/allure-results --clean -o logs/allure-report
+
+      - run:
+          name: Configure Git for Deployment to main branch
+          command: |
+            git config --global user.name "CircleCI"
+            git config --global user.email "circleci@example.com"
+
+      - run:
+          name: Clone main branch and deploy Allure report
+          command: |
+            git clone --single-branch --branch main https://github.com/manavptl-star/appomni-allure-report.git  
+            cd appomni-allure-report
+            rm -rf *  
+            cp -r ../logs/allure-report/* .  
+            git commit -m "Update Allure report"
+            git push origin main
+
+      - store_artifacts:
+          path: logs/allure-report # Store the generated Allure report as an artifact in CircleCI
+
+### WORKFLOWS
+workflows:
+  version: 2
+  build:
+    when: << pipeline.parameters.run_build >>
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: main # Ensure this only runs on the main branch
+  execute-tests:
+    when: << pipeline.parameters.run-execute-tests >>
+    jobs:
+      - execute-tests:
+          context:
+            - gcp-keys
+  allure-report:
+    when: << pipeline.parameters.run-allure-report-generation >>
+    jobs:
+      - allure-report:
+          context:
+            - gcp-keys
