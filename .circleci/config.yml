@@ -24,6 +24,19 @@ jobs:
             ls -a
             pip install -r requirements.txt
       - run:
+          name: Install Java (required for Allure CLI)
+          command: |
+            # Install OpenJDK (Java 11 or higher) to avoid the JAVA_HOME error
+            sudo apt-get update
+            sudo apt-get install -y openjdk-11-jdk
+
+            # Set JAVA_HOME environment variable
+            echo "export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64" >> $BASH_ENV
+            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
+
+            # Verify Java installation
+            java -version
+      - run:
           name: Download Allure CLI
           command: |
             # Download Allure Command Line Tool from GitHub releases page
