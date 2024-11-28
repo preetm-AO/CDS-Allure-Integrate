@@ -5,12 +5,6 @@ parameters:
   run_build:
     default: true
     type: boolean
-  run-execute-tests:
-    default: true
-    type: boolean
-  run-allure-report-generation:
-    default: true
-    type: boolean
 
 ### JOBS
 jobs:
@@ -83,15 +77,9 @@ workflows:
           filters:
             branches:
               only: main # Ensure this only runs on the main branch
-  execute-tests:
-    when: << pipeline.parameters.run-execute-tests >>
-    jobs:
       - execute-tests:
           context:
             - gcp-keys
-  allure-report:
-    when: << pipeline.parameters.run-allure-report-generation >>
-    jobs:
       - allure-report:
           context:
             - gcp-keys
