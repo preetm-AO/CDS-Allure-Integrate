@@ -24,6 +24,7 @@ jobs:
             ls -a
             pip install -r requirements.txt
             pip install allure-pytest
+            brew install allure
       - run:
           name: Install Node.js and Allure command-line tool
           command: |
@@ -40,6 +41,7 @@ jobs:
           name: Run Allure report generation
           when: always
           command: |
+            allure --version
             allure generate allure-results --clean -o allure-report
 
       - run:
