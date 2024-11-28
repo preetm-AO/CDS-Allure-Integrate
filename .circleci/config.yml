@@ -19,6 +19,7 @@ jobs:
       - image: circleci/python:3.9 # Official CircleCI Python image
 
     steps:
+      - checkout
       - run:
           name: Install dependencies
           command: |
