@@ -28,18 +28,18 @@ jobs:
           when: always
           command: |
             . venv/bin/activate
-            pytest  # Generate Allure results in this directory
+            pytest
       - run:
           name: Run Allure report generation
           when: always
           command: |
             cd /usr/src/app/
-            allure generate logs/allure-results --clean -o logs/allure-report
+            allure generate allure-results --clean -o allure-report
 
       - run:
           name: Configure Git for Deployment to main branch
           command: |
-            git config --global user.name "preetm"
+            git config --global user.name "preetm-AO"
             git config --global user.email "preet.mehta@contractors.appomni.com"
 
       - run:
@@ -48,12 +48,12 @@ jobs:
             git clone --single-branch --branch main https://github.com/manavptl-star/appomni-allure-report.git  
             cd appomni-allure-report
             rm -rf *  
-            cp -r ../logs/allure-report/* .  
+            cp -r ../allure-report/* .  
             git commit -m "Update Allure report"
             git push origin main
 
       - store_artifacts:
-          path: logs/allure-report # Store the generated Allure report as an artifact in CircleCI
+          path: allure-report # Store the generated Allure report as an artifact in CircleCI
 
 ### WORKFLOWS
 workflows:
