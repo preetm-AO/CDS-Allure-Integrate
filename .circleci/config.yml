@@ -23,24 +23,12 @@ jobs:
             python --version
             ls -a
             pip install -r requirements.txt
-
-  execute-tests:
-    docker:
-      - image: circleci/python:3.9 # Official CircleCI Python image
-
-    steps:
       - run:
           name: Run pytest tests
           when: always
           command: |
             . venv/bin/activate
             pytest  # Generate Allure results in this directory
-
-  allure-report:
-    docker:
-      - image: circleci/python:3.9 # Official CircleCI Python image
-
-    steps:
       - run:
           name: Run Allure report generation
           when: always
@@ -51,8 +39,8 @@ jobs:
       - run:
           name: Configure Git for Deployment to main branch
           command: |
-            git config --global user.name "CircleCI"
-            git config --global user.email "circleci@example.com"
+            git config --global user.name "preetm"
+            git config --global user.email "preet.mehta@contractors.appomni.com"
 
       - run:
           name: Clone main branch and deploy Allure report
@@ -77,9 +65,3 @@ workflows:
           filters:
             branches:
               only: main # Ensure this only runs on the main branch
-      - execute-tests:
-          context:
-            - gcp-keys
-      - allure-report:
-          context:
-            - gcp-keys
