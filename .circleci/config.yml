@@ -6,10 +6,10 @@ parameters:
     default: true
     type: boolean
   run-execute-tests:
-    default: false
+    default: true
     type: boolean
   run-allure-report-generation:
-    default: false
+    default: true
     type: boolean
 
 ### JOBS
