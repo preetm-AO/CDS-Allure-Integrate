@@ -23,48 +23,21 @@ jobs:
             echo "$PWD"
             python --version
             ls -a
-            pip install -r requirements.txt
-
-      - run:
-          name: Install Java 8 (required for Allure CLI)
-          command: |
-            # Update the package list
-            sudo apt-get update
-
-            # Install OpenJDK 8 from the default Debian repositories
-            sudo apt-get install -y openjdk-8-jdk
-
-            # Set Java 8 as the default
-            echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
-            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
-            java -version
-
-      - run:
-          name: Download and Install Allure CLI
-          command: |
-            ALLURE_VERSION="2.19.0"  # Specify the desired version
-            # Download and extract Allure
-            curl -sL https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz | tar -xz -C /tmp
-
-            # Move the Allure binary to /usr/local/bin
-            sudo mv /tmp/allure-$ALLURE_VERSION/bin/allure /usr/local/bin/allure
-            sudo chmod +x /usr/local/bin/allure
-
-            # Verify Allure installation
-            allure --version
+            pip install -r requirements.txt  # All dependencies will be installed from requirements.txt
 
       - run:
           name: Run pytest tests
           when: always
           command: |
             . venv/bin/activate
-            pytest
+            pytest --alluredir=allure-results  # Save results in allure-results directory
 
       - run:
-          name: Run Allure report generation
+          name: Generate Allure report (using Python)
           when: always
           command: |
-            allure generate allure-results --clean -o allure-report
+            # Generate the Allure report directly using Python
+            python -m allure_python_commons generate allure-results --clean -o allure-report
 
       - run:
           name: Configure Git for Deployment to main branch
