@@ -54,6 +54,8 @@ jobs:
           name: Push Allure report to GitHub
           when: always # This ensures the job runs always
           command: |
+            echo ${PWD}
+            ls -a
             # Configure Git with CircleCI user details
             git config --global user.name "circleci"
             git config --global user.email "circleci@yourdomain.com"
