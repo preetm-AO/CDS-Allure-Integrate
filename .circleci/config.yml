@@ -48,7 +48,7 @@ jobs:
           when: always
           name: Generate Allure report using Allure CLI
           command: |
-            allure generate allure-results --clean -o ./  # Generate report in root directory
+            allure generate allure-results --clean -o docs/  # Generate report in root directory
 
       - run:
           name: Push Allure report to GitHub
