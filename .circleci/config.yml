@@ -39,19 +39,12 @@ jobs:
       - run:
           name: Download Allure CLI (official method)
           command: |
-            # Download Allure Command Line Tool from GitHub releases page
-            ALLURE_VERSION="2.18.1"  # Specify the desired version here
-            wget https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz
-
-            # Extract the downloaded tar.gz file
-            tar -zxvf allure-$ALLURE_VERSION.tgz
-
-            # Move the 'allure' executable to /usr/local/bin (optional)
+            ALLURE_VERSION="2.19.0"
+            curl -sL https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz | tar -xz
             sudo mv allure-$ALLURE_VERSION/bin/allure /usr/local/bin/allure
-
-            # Verify allure installation
+            sudo chmod +x /usr/local/bin/allure
             allure --version
-
+            allure --debug
       - run:
           name: Run pytest tests
           when: always
