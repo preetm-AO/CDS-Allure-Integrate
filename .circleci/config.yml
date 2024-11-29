@@ -45,6 +45,7 @@ jobs:
 
       # Generate Allure report in root directory
       - run:
+          when: always
           name: Generate Allure report using Allure CLI
           command: |
             allure generate allure-results -o ./  # Generate report in root directory
