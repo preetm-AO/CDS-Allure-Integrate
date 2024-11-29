@@ -21,7 +21,7 @@ jobs:
             sudo npm install -g allure-commandline --save-dev
 
             # Set JAVA_HOME environment variable
-            echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+            echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV
             echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
 
             # Verify installations
