@@ -54,6 +54,7 @@ jobs:
 
       - run:
           name: Push Allure report to GitHub
+          when: always
           command: |
             # Configure Git with CircleCI user details
             git config --global user.name "circleci"
