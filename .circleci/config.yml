@@ -24,26 +24,26 @@ jobs:
             ls -a
             pip install -r requirements.txt
       - run:
-        name: Install Java 8 (required for Allure CLI)
-        command: |
-          sudo apt-get update
-          sudo apt-get install -y openjdk-8-jdk
-          echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
-          echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
-          java -version
+          name: Install Java 8 (required for Allure CLI)
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y openjdk-8-jdk
+            echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
+            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
+            java -version
        - run:
-        name: Download and Install Allure CLI
-        command: |
-          ALLURE_VERSION="2.19.0"  # Specify the desired version
-          # Download and extract Allure
-          curl -sL https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz | tar -xz -C /tmp
+          name: Download and Install Allure CLI
+          command: |
+            ALLURE_VERSION="2.19.0"  # Specify the desired version
+            # Download and extract Allure
+            curl -sL https://github.com/allure-framework/allure2/releases/download/$ALLURE_VERSION/allure-$ALLURE_VERSION.tgz | tar -xz -C /tmp
 
-          # Move the Allure binary to /usr/local/bin
-          sudo mv /tmp/allure-$ALLURE_VERSION/bin/allure /usr/local/bin/allure
-          sudo chmod +x /usr/local/bin/allure
+            # Move the Allure binary to /usr/local/bin
+            sudo mv /tmp/allure-$ALLURE_VERSION/bin/allure /usr/local/bin/allure
+            sudo chmod +x /usr/local/bin/allure
 
-          # Verify Allure installation
-          allure --version
+            # Verify Allure installation
+            allure --version
       - run:
           name: Run pytest tests
           when: always
