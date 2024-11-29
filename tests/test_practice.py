@@ -13,3 +13,10 @@ def test_abc():
 @allure.title("test XYZ")
 def test_xyz():
     assert True
+
+
+@allure.suite("tests")
+@allure.sub_suite("ABC")
+@allure.title("test HAHA")
+def test_haha():
+    assert True
