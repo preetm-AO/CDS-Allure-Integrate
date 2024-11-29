@@ -14,7 +14,8 @@ jobs:
           command: |
             # Update package list and install dependencies
             sudo apt-get update
-            sudo apt-get install -y openjdk-8-jdk npm
+            sudo apt-get install -y openjdk-17-jdk npm
+
 
             # Install Allure CLI using npm
             sudo npm install -g allure-commandline --save-dev
