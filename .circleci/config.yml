@@ -62,6 +62,8 @@ jobs:
             git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
 
             # Add, commit, and push the changes
+            echo ${PWD}
+            ls -a
             git add .  # Add the generated Allure report files (assumed to be HTML)
             git commit -m "Update Allure report"
             git push origin main
