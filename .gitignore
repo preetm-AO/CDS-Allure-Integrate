@@ -4,3 +4,4 @@ venv
 logs/
 .DS_Store
 allure-results
+docs/
