@@ -48,6 +48,7 @@ jobs:
           when: always
           name: Generate Allure report using Allure CLI
           command: |
+            git checkout allure-report
             allure generate allure-results --clean -o docs/  # Generate report in root directory
 
       - run:
@@ -62,7 +63,6 @@ jobs:
 
             # Set the GitHub remote URL to use HTTPS with token
             git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
-            git checkout allure-report
             # Add, commit, and push the changes
             git add . # Add the generated Allure report files (assumed to be HTML)
             git commit -m "Update Allure report"
