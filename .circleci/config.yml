@@ -28,6 +28,10 @@ jobs:
       - run:
           name: Install Java 8 (required for Allure CLI)
           command: |
+            # Install software-properties-common to use add-apt-repository
+            sudo apt-get update
+            sudo apt-get install -y software-properties-common
+
             # Add the PPA for OpenJDK 8
             sudo add-apt-repository -y ppa:openjdk-r/ppa
             sudo apt-get update
