@@ -1,6 +1,6 @@
 __pycache__
 .git
-allure*
 venv
 logs/
 .DS_Store
+allure-results

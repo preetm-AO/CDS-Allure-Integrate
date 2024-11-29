@@ -52,27 +52,24 @@ jobs:
           command: |
             allure generate allure-results --clean -o allure-report  # Generate Allure report
 
-      # Configure Git for Deployment to main branch (optional, if needed)
       - run:
-          name: Configure Git for Deployment to main branch
+          name: Push Allure report to GitHub
           command: |
-            git config --global user.name "preetm-AO"
-            git config --global user.email "preet.mehta@contractors.appomni.com"
+            # Configure Git with CircleCI user details
+            git config --global user.name "circleci"
+            git config --global user.email "circleci@yourdomain.com"
 
-      # Clone the main branch and deploy the generated Allure report (optional)
-      - run:
-          name: Clone main branch and deploy Allure report
-          command: |
-            git clone --single-branch --branch main https://github.com/manavptl-star/appomni-allure-report.git
-            cd appomni-allure-report
-            rm -rf *
-            cp -r ../allure-report/* .
+            # Set the GitHub remote URL to use HTTPS with token
+            git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
+
+            # Add, commit, and push the changes
+            git add allure-report/*
             git commit -m "Update Allure report"
             git push origin main
 
       # Store generated Allure report as CircleCI artifact
       - store_artifacts:
-          path: allure-report # Store the generated Allure report as an artifact
+          path: allure-report
 
 workflows:
   version: 2
