@@ -16,7 +16,6 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y openjdk-17-jdk npm
 
-
             # Install Allure CLI using npm
             sudo npm install -g allure-commandline --save-dev
 
@@ -44,12 +43,13 @@ jobs:
             source venv/bin/activate  # Activate virtual environment
             pytest --alluredir=allure-results  # Run tests and save results
 
-      # Generate Allure report
+      # Generate Allure report in root directory
       - run:
           name: Generate Allure report using Allure CLI
           command: |
-            allure generate allure-results --single-file -o allure-report
+            allure generate allure-results -o ./  # Generate report in root directory
 
+            # Push Allure report to GitHub (run always)
       - run:
           name: Push Allure report to GitHub
           command: |
@@ -61,13 +61,14 @@ jobs:
             git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
 
             # Add, commit, and push the changes
-            git add allure-report/*
+            git add .  # Add the generated Allure report files (assumed to be HTML)
             git commit -m "Update Allure report"
             git push origin main
+          when: always # This ensures the job runs always
 
       # Store generated Allure report as CircleCI artifact
       - store_artifacts:
-          path: allure-report
+          path: allure-report # You might need to adjust this if you're generating the report in the root
 
 workflows:
   version: 2
