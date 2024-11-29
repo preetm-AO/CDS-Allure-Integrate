@@ -41,14 +41,14 @@ jobs:
           name: Run pytest tests
           command: |
             source venv/bin/activate  # Activate virtual environment
-            pytest --alluredir=allure-results  # Run tests and save results
+            pytest
 
       # Generate Allure report in root directory
       - run:
           when: always
           name: Generate Allure report using Allure CLI
           command: |
-            allure generate allure-results --clean -o ./  # Generate report in root directory
+            allure generate allure-results --clean -o docs/  # Generate report in root directory
 
             # Push Allure report to GitHub (run always)
       - run:
@@ -62,9 +62,7 @@ jobs:
             git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
 
             # Add, commit, and push the changes
-            echo ${PWD}
-            ls -a
-            git add .  # Add the generated Allure report files (assumed to be HTML)
+            git add docs/  # Add the generated Allure report files (assumed to be HTML)
             git commit -m "Update Allure report"
             git push origin main
           when: always # This ensures the job runs always
