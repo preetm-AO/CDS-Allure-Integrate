@@ -14,6 +14,7 @@ jobs:
 
     steps:
       - checkout
+
       - run:
           name: Install dependencies
           command: |
@@ -23,6 +24,7 @@ jobs:
             python --version
             ls -a
             pip install -r requirements.txt
+
       - run:
           name: Install Java 8 (required for Allure CLI)
           command: |
@@ -31,7 +33,8 @@ jobs:
             echo "export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64" >> $BASH_ENV
             echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
             java -version
-       - run:
+
+      - run:
           name: Download and Install Allure CLI
           command: |
             ALLURE_VERSION="2.19.0"  # Specify the desired version
@@ -44,12 +47,14 @@ jobs:
 
             # Verify Allure installation
             allure --version
+
       - run:
           name: Run pytest tests
           when: always
           command: |
             . venv/bin/activate
             pytest
+
       - run:
           name: Run Allure report generation
           when: always
@@ -65,10 +70,10 @@ jobs:
       - run:
           name: Clone main branch and deploy Allure report
           command: |
-            git clone --single-branch --branch main https://github.com/manavptl-star/appomni-allure-report.git  
+            git clone --single-branch --branch main https://github.com/manavptl-star/appomni-allure-report.git
             cd appomni-allure-report
-            rm -rf *  
-            cp -r ../allure-report/* .  
+            rm -rf *
+            cp -r ../allure-report/* .
             git commit -m "Update Allure report"
             git push origin main
 
