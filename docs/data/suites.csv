@@ -1,4 +1,4 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","1","test HAHA","tests","Fri Nov 29 10:24:08 UTC 2024","passed","Fri Nov 29 10:24:08 UTC 2024","ABC","tests","",""
-"","0","test XYZ","tests","Fri Nov 29 10:24:08 UTC 2024","passed","Fri Nov 29 10:24:08 UTC 2024","ABC","tests","",""
-"","0","test ABC","tests","Fri Nov 29 10:24:08 UTC 2024","failed","Fri Nov 29 10:24:08 UTC 2024","ABC","tests","",""
+"","0","test HAHA","tests","Mon Dec 02 10:04:35 UTC 2024","passed","Mon Dec 02 10:04:35 UTC 2024","ABC","tests","",""
+"","0","test XYZ","tests","Mon Dec 02 10:04:35 UTC 2024","passed","Mon Dec 02 10:04:35 UTC 2024","ABC","tests","",""
+"","0","test ABC","tests","Mon Dec 02 10:04:35 UTC 2024","failed","Mon Dec 02 10:04:35 UTC 2024","ABC","tests","",""
