@@ -17,29 +17,22 @@ jobs:
             pip install -r requirements.txt
             pytest
 
+      # Allure CLI depends on JAVA and Node.js is used to download Allure CLI
       - run:
           name: Install JAVA, Node.js and Allure CLI
           when: always
           command: |
-            sudo apt-get update
-            sudo apt-get install -y openjdk-17-jdk npm
-            sudo npm install -g allure-commandline --save-dev
-            echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV
-            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
-            java -version
-            npm --version
-            allure --version
+            sudo apt-get update # Update package lists to get the latest versions of repositories
 
-      # Generate Allure report using Allure CLI
-      - run:
-          when: always
-          name: Generate Allure report
-          command: |
-            allure generate --clean -o logs/allure-report
+            sudo apt-get install -y openjdk-17-jdk npm # Install OpenJDK 17 (Java) and Node.js package manager (npm)
 
-      # Store Allure report as CircleCI artifact
-      - store_artifacts:
-          path: logs/allure-report
+            sudo npm install -g allure-commandline --save-dev # Install Allure Command Line Interface (CLI) globally via npm
+
+            echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV # Add JAVA_HOME environment variable to the CircleCI environment file
+
+            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV # Update PATH environment variable to include Java binaries
+s
+            allure generate --clean -o logs/allure-report # Generate allure report
 
 workflows:
   version: 2
