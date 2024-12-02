@@ -39,6 +39,10 @@ jobs:
           command: |
             allure generate --clean -o logs/allure-report
 
+      # Store Allure report as CircleCI artifact
+      - store_artifacts:
+          path: logs/allure-report
+
 workflows:
   version: 2
   build:
