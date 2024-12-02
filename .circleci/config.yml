@@ -17,10 +17,9 @@ jobs:
             pip install -r requirements.txt
             pytest
 
-      # Generate Allure report using Allure CLI
       - run:
+          name: Install JAVA, Node.js and Allure CLI
           when: always
-          name: Generate Allure report
           command: |
             sudo apt-get update
             sudo apt-get install -y openjdk-17-jdk npm
@@ -30,6 +29,12 @@ jobs:
             java -version
             npm --version
             allure --version
+
+      # Generate Allure report using Allure CLI
+      - run:
+          when: always
+          name: Generate Allure report
+          command: |
             allure generate --clean -o logs/allure-report
 
       # Store Allure report as CircleCI artifact
