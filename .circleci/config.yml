@@ -8,26 +8,6 @@ jobs:
     steps:
       - checkout # Checkout the code from the repo
 
-      # Install OpenJDK 8 and npm (and other dependencies)
-      - run:
-          name: Install Java 8, npm, and Allure CLI
-          command: |
-            # Update package list and install dependencies
-            sudo apt-get update
-            sudo apt-get install -y openjdk-17-jdk npm
-
-            # Install Allure CLI using npm
-            sudo npm install -g allure-commandline --save-dev
-
-            # Set JAVA_HOME environment variable
-            echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV
-            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
-
-            # Verify installations
-            java -version
-            npm --version
-            allure --version
-
       # Create and activate Python virtual environment
       - run:
           name: Install Python dependencies
@@ -48,29 +28,40 @@ jobs:
           when: always
           name: Generate Allure report using Allure CLI
           command: |
-            git checkout allure-report
-            allure generate allure-results --clean -o docs/  # Generate report in root directory
+            # git checkout allure-report
+            # # allure generate allure-results --clean -o docs/  # Generate report in root directory
+            sudo apt-get update
+            sudo apt-get install -y openjdk-17-jdk npm
+            sudo npm install -g allure-commandline --save-dev
+            echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV
+            echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV
+            java -version
+            npm --version
+            allure --version
+            allure generate --clean -o logs/allure-report
+      - store_artifacts:
+        path: logs/allure-report
 
-      - run:
-          name: Push Allure report to GitHub
-          when: always # This ensures the job runs always
-          command: |
-            echo ${PWD}
-            ls -a
-            # Configure Git with CircleCI user details
-            git config --global user.name "circleci"
-            git config --global user.email "circleci@yourdomain.com"
+      # - run:
+      #     name: Push Allure report to GitHub
+      #     when: always # This ensures the job runs always
+      #     command: |
+      #       echo ${PWD}
+      #       ls -a
+      #       # Configure Git with CircleCI user details
+      #       git config --global user.name "circleci"
+      #       git config --global user.email "circleci@yourdomain.com"
 
-            # Set the GitHub remote URL to use HTTPS with token
-            git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
-            # Add, commit, and push the changes
-            git add . # Add the generated Allure report files (assumed to be HTML)
-            git commit -m "Update Allure report"
-            git push origin allure-report
+      #       # Set the GitHub remote URL to use HTTPS with token
+      #       git remote set-url origin https://$GH_TOKEN@github.com/preetm-AO/CDS-Allure-Integrate.git
+      #       # Add, commit, and push the changes
+      #       git add . # Add the generated Allure report files (assumed to be HTML)
+      #       git commit -m "Update Allure report"
+      #       git push origin allure-report
 
       # Store generated Allure report as CircleCI artifact
-      - store_artifacts:
-          path: allure-report # You might need to adjust this if you're generating the report in the root
+      # - store_artifacts:
+      #     path: allure-report # You might need to adjust this if you're generating the report in the root
 
 workflows:
   version: 2
