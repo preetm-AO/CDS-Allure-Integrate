@@ -32,7 +32,12 @@ jobs:
 
             echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV # Update PATH environment variable to include Java binaries
 
-            allure generate --clean -o logs/allure-report # Generate allure report
+      # Generate Allure report using Allure CLI
+      - run:
+          when: always
+          name: Generate Allure report
+          command: |
+            allure generate --clean -o logs/allure-report
 
 workflows:
   version: 2
