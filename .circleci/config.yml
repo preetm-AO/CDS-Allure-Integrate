@@ -31,7 +31,7 @@ jobs:
             echo "export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64" >> $BASH_ENV # Add JAVA_HOME environment variable to the CircleCI environment file
 
             echo "export PATH=$JAVA_HOME/bin:$PATH" >> $BASH_ENV # Update PATH environment variable to include Java binaries
-s
+
             allure generate --clean -o logs/allure-report # Generate allure report
 
 workflows:
